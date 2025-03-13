@@ -33,7 +33,7 @@
 	</v-card>
 	<v-container>
 		<v-row>
-			<v-col v-if="edit" xs="12" md="auto">
+			<v-col v-if="edit" xs="12" md="auto" class="edit flex-grow-1">
 				<v-select
 					v-if="edit"
 					v-model="bingo.size"
@@ -52,7 +52,7 @@
 				</v-alert>
 				<bingo-entry :modelValue="bingo.fields" />
 			</v-col>
-			<v-col xs="12" md="auto">
+			<v-col xs="12" md="auto" class="mx-auto flex-shrink-1">
 				<bingo-board
 					class="mx-auto"
 					:size="bingo.size"
@@ -116,4 +116,9 @@ watch(
 	{ deep: true }
 );
 </script>
-<style scoped></style>
+<style scoped>
+.edit {
+	max-height: var(--grid-size);
+	overflow-y: auto;
+}
+</style>
