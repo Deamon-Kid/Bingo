@@ -68,6 +68,7 @@ watch(
 	min-width: 0;
 	max-width: 100%;
 	color: black;
+	cursor: pointer;
 }
 
 .bingo-tile_state-0 {
