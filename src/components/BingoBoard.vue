@@ -57,8 +57,8 @@ const board = computed(() => {
 
 <style scoped>
 .bingo-board {
-	max-width: 500px;
-	width: 500px;
+	max-width: var(--grid-size);
+	width: var(--grid-size);
 	aspect-ratio: 1/1;
 	display: grid;
 	gap: 4px;
@@ -68,14 +68,14 @@ const board = computed(() => {
 .bingo-board--size-3 {
 	grid-template-columns: repeat(3, 1fr);
 	.bingo-field {
-		width: calc(500px / 3);
+		width: calc(var(--grid-size) / 3);
 	}
 }
 
 .bingo-board--size-5 {
 	grid-template-columns: repeat(5, 1fr);
 	.bingo-field {
-		width: calc(500px / 5);
+		width: calc(var(--grid-size) / 5);
 	}
 }
 </style>

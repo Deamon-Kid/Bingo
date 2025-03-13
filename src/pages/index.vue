@@ -22,36 +22,46 @@
 				rounded="0"
 				icon="mdi-share-variant"
 			/>
+			<v-btn
+				@click="() => (edit = !edit)"
+				variant="tonal"
+				rounded="0"
+				icon="mdi-pencil"
+				:color="edit ? 'error' : ''"
+			/>
 		</div>
 	</v-card>
-	<v-row>
-		<v-col>
-			<bingo-entry :modelValue="bingo.fields" />
-		</v-col>
-		<v-col sm="12" md="6">
-			<v-select
-				v-model="bingo.size"
-				size="1"
-				:items="[3, 5]"
-				label="Field Size"
-				hide-details
-			/>
-			<v-alert
-				v-if="!valid"
-				type="warning"
-				class="mx-2"
-				density="compact"
-			>
-				Not enough fields to create a valid bingo board
-			</v-alert>
-			<bingo-board
-				class="mx-auto"
-				:size="bingo.size"
-				:fields="bingo.fields"
-				:seed="bingo.seed"
-			/>
-		</v-col>
-	</v-row>
+	<v-container>
+		<v-row>
+			<v-col v-if="edit">
+				<v-select
+					v-if="edit"
+					v-model="bingo.size"
+					size="1"
+					:items="[3, 5]"
+					label="Field Size"
+					hide-details
+				/>
+				<v-alert
+					v-if="!valid"
+					type="warning"
+					class="mx-2"
+					density="compact"
+				>
+					Not enough fields to create a valid bingo board
+				</v-alert>
+				<bingo-entry :modelValue="bingo.fields" />
+			</v-col>
+			<v-col>
+				<bingo-board
+					class="mx-auto"
+					:size="bingo.size"
+					:fields="bingo.fields"
+					:seed="bingo.seed"
+				/>
+			</v-col>
+		</v-row>
+	</v-container>
 	<save-dialog v-if="showDialog" v-model="showDialog" :data="bingo" />
 	<router-view />
 </template>
@@ -79,6 +89,7 @@ const bingo: Ref<Bingo> = ref({
 	size: parseInt(route.query.size?.toString() || "3") || 3,
 });
 const showDialog = ref(false);
+const edit = ref(false);
 const valid = computed(() => {
 	const locked = bingo.value.fields.filter((f) => !f.free);
 	const squareSize = bingo.value.size * bingo.value.size;
