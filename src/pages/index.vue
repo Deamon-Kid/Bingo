@@ -33,7 +33,7 @@
 	</v-card>
 	<v-container>
 		<v-row>
-			<v-col v-if="edit">
+			<v-col v-if="edit" xs="12" md="auto">
 				<v-select
 					v-if="edit"
 					v-model="bingo.size"
@@ -52,7 +52,7 @@
 				</v-alert>
 				<bingo-entry :modelValue="bingo.fields" />
 			</v-col>
-			<v-col>
+			<v-col xs="12" md="auto">
 				<bingo-board
 					class="mx-auto"
 					:size="bingo.size"

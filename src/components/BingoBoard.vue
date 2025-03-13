@@ -34,7 +34,6 @@ const props = defineProps({
 });
 
 const board = computed(() => {
-	window.console.error("generating field", props.seed);
 	let result = new Array(props.size ** 2).fill("");
 	const rng = seedrandom(props.seed);
 	window.console.error(rng() - 0.5, rng() - 0.5, rng() - 0.5, rng() - 0.5);
@@ -57,8 +56,8 @@ const board = computed(() => {
 
 <style scoped>
 .bingo-board {
-	max-width: var(--grid-size);
-	width: var(--grid-size);
+	max-width: minmax(100%, var(--grid-size));
+	width: minmax(100%, var(--grid-size));
 	aspect-ratio: 1/1;
 	display: grid;
 	gap: 4px;
