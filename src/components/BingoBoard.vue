@@ -1,12 +1,10 @@
 <template>
 	<div class="bingo-board" :class="`bingo-board--size-${size}`">
-		<v-card
+		<bingo-tile
 			v-for="(field, i) in board"
 			:key="`board-${i}`"
-			class="bingo-field"
-		>
-			<bingo-tile :model-value="field" />
-		</v-card>
+			:model-value="field"
+		/>
 	</div>
 </template>
 
@@ -63,14 +61,14 @@ const board = computed(() => {
 
 .bingo-board--size-3 {
 	grid-template-columns: repeat(3, 1fr);
-	.bingo-field {
+	.bingo-tile {
 		width: calc(var(--grid-size) / 3);
 	}
 }
 
 .bingo-board--size-5 {
 	grid-template-columns: repeat(5, 1fr);
-	.bingo-field {
+	.bingo-tile {
 		width: calc(var(--grid-size) / 5);
 	}
 }
