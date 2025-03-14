@@ -19,18 +19,13 @@ const resizeText = () => {
 	const element = tile.value;
 	if (!element) return;
 
-	const parentWidth = element.clientWidth;
-	const parentHeight = element.clientHeight;
 	let fontSize = 24; // Initial font size
 	element.style.fontSize = `${fontSize}px`;
 
-	while (
-		element.scrollWidth > parentWidth ||
-		element.scrollHeight > parentHeight
-	) {
+	while (element.scrollWidth != element.scrollHeight) {
 		fontSize -= 1;
 		element.style.fontSize = `${fontSize}px`;
-		if (fontSize <= 0) break;
+		if (fontSize <= 8) break;
 	}
 };
 
@@ -62,8 +57,10 @@ watch(
 	padding: 4px;
 	font-size: 24px;
 	overflow: unset !important;
+	overflow-y: auto;
 	min-width: 0;
 	max-width: 100%;
+	max-height: 100%;
 	color: black;
 	cursor: pointer;
 
