@@ -36,18 +36,15 @@ const props = defineProps({
 const board = computed(() => {
 	let result = new Array(props.size ** 2).fill("");
 	const rng = seedrandom(props.seed);
-	window.console.error(rng() - 0.5, rng() - 0.5, rng() - 0.5, rng() - 0.5);
 	const tiles = [...props.fields.filter((f) => !f.free).map((f) => f.value)];
 	tiles.sort(() => rng() - 0.5);
-	//   if (tiles.length >= props.size ** 2) {
 	result = result.map((_, i) => tiles[i]);
-	//   }
-	if (tiles.length < props.size ** 2) {
+	const freeTiles = props.fields.filter((f) => f.free).map((f) => f.value);
+	if (freeTiles.length > 0) {
 		const centerIndex = Math.floor(props.size ** 2 / 2);
-		result[tiles.length] = tiles[centerIndex];
-		const freeTiles = props.fields
-			.filter((f) => f.free)
-			.map((f) => f.value);
+		if (tiles.length < props.size ** 2) {
+			result[tiles.length] = tiles[centerIndex];
+		}
 		result[centerIndex] = freeTiles.sort(() => rng() - 0.5)?.[0] || "Free";
 	}
 	return result;
