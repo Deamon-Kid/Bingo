@@ -53,6 +53,7 @@ const bingo: Ref<Bingo> = ref({
 		route.query.fields
 			?.toString()
 			.split(",")
+			.filter((value) => value.length > 0)
 			.map((value) => ({
 				value: value.substring(1),
 				free: value.startsWith("1"),

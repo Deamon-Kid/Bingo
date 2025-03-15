@@ -164,8 +164,8 @@ const newItem = ref({ value: "", free: false });
 
 watch(
 	data,
-	() => {
-		dataModel.value = data.value;
+	(val) => {
+		dataModel.value = val;
 	},
 	{ deep: true }
 );
