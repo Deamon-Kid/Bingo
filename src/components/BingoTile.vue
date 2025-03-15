@@ -22,7 +22,10 @@ const resizeText = () => {
 	let fontSize = 24; // Initial font size
 	element.style.fontSize = `${fontSize}px`;
 
-	while (element.scrollWidth != element.scrollHeight) {
+	while (
+		element.scrollWidth != element.scrollHeight ||
+		element.clientWidth != element.clientHeight
+	) {
 		fontSize -= 1;
 		element.style.fontSize = `${fontSize}px`;
 		if (fontSize <= 8) break;
@@ -57,10 +60,10 @@ watch(
 	padding: 4px;
 	font-size: 24px;
 	overflow: unset !important;
-	overflow-y: auto;
 	min-width: 0;
 	max-width: 100%;
 	max-height: 100%;
+	overflow: hidden;
 	color: black;
 	cursor: pointer;
 
@@ -73,6 +76,7 @@ watch(
 		overflow: initial;
 		overflow-wrap: initial;
 		width: 100%;
+		max-width: 100%;
 	}
 }
 
