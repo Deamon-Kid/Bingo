@@ -31,6 +31,11 @@ export default [
         },
       ],
       'vue/multi-word-component-names': 'off',
+      'vue/no-tabs': 'off', // Disable the rule that disallows tabs
+      'vue/indent': ['error', 'tab'], // Allow tabs for indentation
+      'vue/html-indent': ['error', 'tab'], // Allow tabs in Vue templates
+      'vue/script-indent': ['error', 'tab'], // Allow tabs in Vue scripts
+
     }
   }
 ]
