@@ -1,30 +1,31 @@
 <template>
 	<v-app-bar density="compact">
+		<v-spacer />
 		<h2 class="ml-4">
 			{{ bingo.name || "unnamed Bingo" }}
 		</h2>
 		<v-spacer />
 		<div>
 			<v-btn
-				@click="
-					() => (bingo.seed = Math.random().toString(36).substring(7))
-				"
 				variant="tonal"
 				rounded="0"
 				icon="mdi-shuffle-variant"
+				@click="
+					() => (bingo.seed = Math.random().toString(36).substring(7))
+				"
 			/>
 			<v-btn
-				@click="() => (showSaveDialog = true)"
 				variant="tonal"
 				rounded="0"
 				icon="mdi-share-variant"
+				@click="() => (showSaveDialog = true)"
 			/>
 			<v-btn
-				@click="() => (showEditDialog = !showEditDialog)"
 				variant="tonal"
 				rounded="0"
 				icon="mdi-pencil"
 				:color="showEditDialog ? 'error' : ''"
+				@click="() => (showEditDialog = !showEditDialog)"
 			/>
 		</div>
 	</v-app-bar>

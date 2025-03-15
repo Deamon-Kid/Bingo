@@ -29,7 +29,13 @@
 						</template>
 					</v-text-field>
 					<v-spacer />
-					<v-btn icon @click="model = false" rounded="0" class="mr-0">
+					<v-btn
+						icon
+						rounded="0"
+						class="mr-0"
+						color="primary"
+						@click="model = false"
+					>
 						<v-icon>mdi-content-save</v-icon>
 					</v-btn>
 				</v-toolbar>
