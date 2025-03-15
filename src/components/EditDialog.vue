@@ -86,7 +86,7 @@
 						</v-btn>
 					</template>
 					<template #[`body.prepend`]>
-						<tr>
+						<tr style="outline: 2px dashed green">
 							<td
 								class="v-data-table__td v-data-table-column--align-start"
 							>
