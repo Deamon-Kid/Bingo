@@ -15,20 +15,23 @@
 					/>
 				</v-toolbar>
 			</v-card-title>
-			<v-card-text class="pb-0">
-				<v-textarea :value="text" readonly dense hide-details />
+			<v-card-text>
+				<v-text-field
+					:value="text"
+					readonly
+					density="compact"
+					hide-details
+					class="pr-0"
+					append-inner-icon="mdi-content-copy"
+					@click:append-inner="copyText"
+					@focus="$event.target.select()"
+				/>
 			</v-card-text>
-			<v-card-actions>
-				<v-btn
-					prepend-icon="mdi-content-copy"
-					@click="copyText"
-					color="primary"
-				>
-					Copy to Clipboard
-				</v-btn>
-			</v-card-actions>
 		</v-card>
 	</v-dialog>
+	<v-snackbar v-model="showSnackbar" color="primary">
+		<div class="text-center">Copied link</div>
+	</v-snackbar>
 </template>
 <script lang="ts" setup>
 import type { Bingo } from "@/types/Bingo";
@@ -42,7 +45,7 @@ const props = defineProps({
 	},
 });
 
-const sendSeed = ref(true);
+const showSnackbar = ref(false);
 
 const text = computed(() => {
 	return window.location.href;
@@ -50,6 +53,7 @@ const text = computed(() => {
 
 const copyText = () => {
 	window.navigator.clipboard.writeText(text.value);
+	showSnackbar.value = true;
 };
 
 window.console.error(model, props.data);
