@@ -10,6 +10,7 @@
 				variant="tonal"
 				rounded="0"
 				icon="mdi-shuffle-variant"
+				color="primary"
 				@click="
 					() => (bingo.seed = Math.random().toString(36).substring(7))
 				"
@@ -18,13 +19,14 @@
 				variant="tonal"
 				rounded="0"
 				icon="mdi-share-variant"
+				color="success"
 				@click="() => (showSaveDialog = true)"
 			/>
 			<v-btn
 				variant="tonal"
 				rounded="0"
 				icon="mdi-pencil"
-				:color="showEditDialog ? 'error' : ''"
+				color="warning"
 				@click="() => (showEditDialog = !showEditDialog)"
 			/>
 		</div>
