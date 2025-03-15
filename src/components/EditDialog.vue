@@ -19,7 +19,7 @@
 						<template #append>
 							<v-select
 								v-model="data.size"
-								:items="[3, 5]"
+								:items="[3, 5, 7]"
 								label="Size"
 								hide-details
 								density="compact"
@@ -42,8 +42,16 @@
 			</v-card-title>
 			<v-card-text>
 				<v-alert v-if="!valid" type="warning">
-					You need at least {{ data.size * data.size }} fields
-					{{ data.fields.length }}
+					Not enough fields to fill the board. (
+					{{ data.fields.filter((f) => !f.free).length }}
+					out of
+					<template v-if="data.fields.some((f) => f.free)">
+						{{ data.size ** 2 - 1 }}
+					</template>
+					<template v-else>
+						{{ data.size ** 2 }}
+					</template>
+					)
 				</v-alert>
 				<v-data-table
 					:items="data.fields"
