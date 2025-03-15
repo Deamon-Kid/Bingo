@@ -11,6 +11,7 @@ declare module 'vue' {
     BingoBoard: typeof import('./components/BingoBoard.vue')['default']
     BingoEntry: typeof import('./components/BingoEntry.vue')['default']
     BingoTile: typeof import('./components/BingoTile.vue')['default']
+    EditDialog: typeof import('./components/EditDialog.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

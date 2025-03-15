@@ -1,12 +1,9 @@
 <template>
-	<v-card class="d-flex">
-		<v-text-field
-			hideDetails
-			singleLine
-			placeholder="BingoName"
-			v-model="bingo.name"
-			density="compact"
-		/>
+	<v-toolbar density="compact">
+		<h2 class="ml-4">
+			{{ bingo.name || "unnamed Bingo" }}
+		</h2>
+		<v-spacer />
 		<div>
 			<v-btn
 				@click="
@@ -17,58 +14,35 @@
 				icon="mdi-shuffle-variant"
 			/>
 			<v-btn
-				@click="() => (showDialog = true)"
+				@click="() => (showSaveDialog = true)"
 				variant="tonal"
 				rounded="0"
 				icon="mdi-share-variant"
 			/>
 			<v-btn
-				@click="() => (edit = !edit)"
+				@click="() => (showEditDialog = !showEditDialog)"
 				variant="tonal"
 				rounded="0"
 				icon="mdi-pencil"
-				:color="edit ? 'error' : ''"
+				:color="showEditDialog ? 'error' : ''"
 			/>
 		</div>
-	</v-card>
-	<v-container>
-		<v-row>
-			<v-col v-if="edit" xs="12" md="auto" class="edit flex-grow-1">
-				<v-select
-					v-if="edit"
-					v-model="bingo.size"
-					size="1"
-					:items="[3, 5]"
-					label="Field Size"
-					hide-details
-				/>
-				<v-alert
-					v-if="!valid"
-					type="warning"
-					class="mx-2"
-					density="compact"
-				>
-					Not enough fields to create a valid bingo board
-				</v-alert>
-				<bingo-entry :modelValue="bingo.fields" />
-			</v-col>
-			<v-col xs="12" md="auto" class="mx-auto flex-shrink-1">
-				<bingo-board
-					class="mx-auto"
-					:size="bingo.size"
-					:fields="bingo.fields"
-					:seed="bingo.seed"
-				/>
-			</v-col>
-		</v-row>
-	</v-container>
-	<save-dialog v-if="showDialog" v-model="showDialog" :data="bingo" />
+	</v-toolbar>
+	<div class="bingo-container">
+		<bingo-board
+			class="mx-auto"
+			:size="bingo.size"
+			:fields="bingo.fields"
+			:seed="bingo.seed"
+		/>
+	</div>
+	<edit-dialog v-model="showEditDialog" v-model:data="bingo" />
+	<save-dialog v-if="showSaveDialog" v-model="showSaveDialog" :data="bingo" />
 	<router-view />
 </template>
 <script lang="ts" setup>
 import { ref, type Ref } from "vue";
 import BingoBoard from "../components/BingoBoard.vue";
-import BingoEntry from "@/components/BingoEntry.vue";
 import SaveDialog from "@/components/SaveDialog.vue";
 import { useRoute } from "vue-router";
 import type { Bingo } from "@/types/Bingo";
@@ -88,17 +62,8 @@ const bingo: Ref<Bingo> = ref({
 			})) || [],
 	size: parseInt(route.query.size?.toString() || "3") || 3,
 });
-const showDialog = ref(false);
-const edit = ref(false);
-const valid = computed(() => {
-	const locked = bingo.value.fields.filter((f) => !f.free);
-	const squareSize = bingo.value.size * bingo.value.size;
-	return (
-		locked.length >= squareSize ||
-		(locked.length == squareSize - 1 &&
-			bingo.value.fields.some((f) => f.free))
-	);
-});
+const showSaveDialog = ref(false);
+const showEditDialog = ref(false);
 
 watch(
 	bingo,
@@ -117,8 +82,8 @@ watch(
 );
 </script>
 <style scoped>
-.edit {
-	max-height: var(--grid-size);
-	overflow-y: auto;
+.bingo-container {
+	max-width: 750px;
+	margin: 0px auto;
 }
 </style>

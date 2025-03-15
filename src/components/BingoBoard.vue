@@ -1,5 +1,8 @@
 <template>
-	<div class="bingo-board" :class="`bingo-board--size-${size}`">
+	<div
+		class="bingo-board"
+		:style="`grid-template-columns: repeat(${size}, 1fr)`"
+	>
 		<bingo-tile
 			v-for="(field, i) in board"
 			:key="`board-${i}`"
@@ -57,19 +60,5 @@ const board = computed(() => {
 	display: grid;
 	gap: 4px;
 	margin: 4px;
-}
-
-.bingo-board--size-3 {
-	grid-template-columns: repeat(3, 1fr);
-	.bingo-tile {
-		width: calc(var(--grid-size) / 3);
-	}
-}
-
-.bingo-board--size-5 {
-	grid-template-columns: repeat(5, 1fr);
-	.bingo-tile {
-		width: calc(var(--grid-size) / 5);
-	}
 }
 </style>
