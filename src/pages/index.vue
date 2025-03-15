@@ -1,5 +1,5 @@
 <template>
-	<v-toolbar density="compact">
+	<v-app-bar density="compact">
 		<h2 class="ml-4">
 			{{ bingo.name || "unnamed Bingo" }}
 		</h2>
@@ -27,7 +27,7 @@
 				:color="showEditDialog ? 'error' : ''"
 			/>
 		</div>
-	</v-toolbar>
+	</v-app-bar>
 	<div class="bingo-container">
 		<bingo-board
 			class="mx-auto"
@@ -85,5 +85,6 @@ watch(
 .bingo-container {
 	max-width: 750px;
 	margin: 0px auto;
+	max-height: calc(100vh -1000px);
 }
 </style>

@@ -54,8 +54,8 @@ const board = computed(() => {
 
 <style scoped>
 .bingo-board {
-	max-width: minmax(100%, var(--grid-size));
-	width: minmax(100%, var(--grid-size));
+	max-width: 100%;
+	width: 100%;
 	aspect-ratio: 1/1;
 	display: grid;
 	gap: 4px;
