@@ -9,10 +9,8 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppFooter: typeof import('./components/AppFooter.vue')['default']
     BingoBoard: typeof import('./components/BingoBoard.vue')['default']
-    BingoEntry: typeof import('./components/BingoEntry.vue')['default']
     BingoTile: typeof import('./components/BingoTile.vue')['default']
     EditDialog: typeof import('./components/EditDialog.vue')['default']
-    HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SaveDialog: typeof import('./components/SaveDialog.vue')['default']

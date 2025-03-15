@@ -15,19 +15,7 @@
 						label="Bingo Name"
 						v-model="data.name"
 						density="compact"
-					>
-						<template #append>
-							<v-select
-								v-model="data.size"
-								:items="[3, 5, 7]"
-								label="Size"
-								hide-details
-								density="compact"
-								max-width="100px"
-								width="100px"
-							/>
-						</template>
-					</v-text-field>
+					/>
 					<v-spacer />
 					<v-btn
 						icon
@@ -123,6 +111,35 @@
 					</template>
 				</v-data-table>
 			</v-card-text>
+			<v-card-actions class="px-5">
+				<v-select
+					v-model="data.size"
+					:items="[3, 5, 7]"
+					label="Size"
+					hide-details
+					density="compact"
+					max-width="100px"
+					width="100px"
+				/>
+				<v-spacer />
+				<v-switch
+					v-show="data.fields.some((f) => f.free)"
+					v-model="data.freeCenter"
+					label="free center"
+					color="primary"
+					density="compact"
+					hide-details
+				/>
+				<v-switch
+					v-show="data.fields.some((f) => f.free)"
+					v-model="data.freeAnywhere"
+					label="free anywhere"
+					color="primary"
+					density="compact"
+					hide-details
+					class="ml-4"
+				/>
+			</v-card-actions>
 		</v-card>
 	</v-dialog>
 </template>

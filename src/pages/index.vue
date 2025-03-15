@@ -32,12 +32,7 @@
 		</div>
 	</v-app-bar>
 	<div class="bingo-container">
-		<bingo-board
-			class="mx-auto"
-			:size="bingo.size"
-			:fields="bingo.fields"
-			:seed="bingo.seed"
-		/>
+		<bingo-board class="mx-auto" :data="bingo" />
 	</div>
 	<edit-dialog v-model="showEditDialog" v-model:data="bingo" />
 	<save-dialog v-if="showSaveDialog" v-model="showSaveDialog" :data="bingo" />
@@ -63,6 +58,8 @@ const bingo: Ref<Bingo> = ref({
 				free: value.startsWith("1"),
 			})) || [],
 	size: parseInt(route.query.size?.toString() || "3") || 3,
+	freeCenter: route.query.freeCenter ? true : false,
+	freeAnywhere: route.query.freeAnywhere ? true : false,
 });
 const showSaveDialog = ref(false);
 const showEditDialog = ref(false);
@@ -77,6 +74,12 @@ watch(
 			"fields",
 			val.fields.map((f) => (f.free ? "1" : "0") + f.value).join(",")
 		);
+		if (val.freeCenter) {
+			query.set("freeCenter", "1");
+		}
+		if (val.freeAnywhere) {
+			query.set("freeAnywhere", "1");
+		}
 		query.set("size", val.size.toString());
 		history.replaceState(null, "", `?${query.toString()}`);
 	},

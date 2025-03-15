@@ -5,4 +5,6 @@ export type Bingo = {
 	seed: string;
 	fields: Array<BingoEntry>;
 	size: number;
+	freeCenter: boolean;
+	freeAnywhere: boolean;
 };

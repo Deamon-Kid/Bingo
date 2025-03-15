@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="bingo-board"
-		:style="`grid-template-columns: repeat(${size}, 1fr)`"
+		:style="`grid-template-columns: repeat(${data.size}, 1fr)`"
 	>
 		<bingo-tile
 			v-for="(field, i) in board"
@@ -12,43 +12,63 @@
 </template>
 
 <script setup lang="ts">
-import type { BingoEntry } from "@/types/BingoEntry";
 import BingoTile from "./BingoTile.vue";
 import { computed } from "vue";
 import seedrandom from "seedrandom";
+import type { Bingo } from "@/types/Bingo";
 
 const props = defineProps({
-	size: {
-		type: Number,
+	data: {
+		type: Object as PropType<Bingo>,
 		required: true,
-	},
-	fields: {
-		type: Array<BingoEntry>,
-		required: false,
-		default: [],
-	},
-	seed: {
-		type: String,
-		required: false,
-		default: () => Math.random().toString(),
 	},
 });
 
 const board = computed(() => {
-	let result = new Array(props.size ** 2).fill("");
-	const rng = seedrandom(props.seed);
-	const tiles = [...props.fields.filter((f) => !f.free).map((f) => f.value)];
+	let result = new Array(props.data.size ** 2).fill({
+		value: "",
+		free: false,
+	});
+	let tiles = [...props.data.fields.filter((f) => !f.free)];
+	const freeTiles = props.data.fields.filter((f) => f.free);
+	if (props.data.freeAnywhere) {
+		tiles = tiles.concat(freeTiles);
+	}
+	if (
+		(!props.data.freeCenter && tiles.length < props.data.size ** 2) ||
+		(freeTiles.length > 0 &&
+			props.data.freeCenter &&
+			tiles.length < props.data.size ** 2 - 1)
+	) {
+		return result.map((f) => f.value);
+	}
+	const rng = seedrandom(props.data.seed);
 	tiles.sort(() => rng() - 0.5);
 	result = result.map((_, i) => tiles[i]);
-	const freeTiles = props.fields.filter((f) => f.free).map((f) => f.value);
-	if (freeTiles.length > 0) {
-		const centerIndex = Math.floor(props.size ** 2 / 2);
-		if (tiles.length < props.size ** 2) {
-			result[tiles.length] = tiles[centerIndex];
+	if (props.data.freeCenter && freeTiles.length > 0) {
+		const centerIndex = Math.floor(props.data.size ** 2 / 2);
+		if (!freeTiles.includes(result[centerIndex])) {
+			if (tiles.length < props.data.size ** 2) {
+				result[tiles.length] = tiles[centerIndex];
+			}
+			const unusedFreeTiles = freeTiles.filter(
+				(ft) => !result.includes(ft)
+			);
+			if (unusedFreeTiles.length > 0) {
+				result[centerIndex] = unusedFreeTiles.sort(
+					() => rng() - 0.5
+				)[0];
+			} else {
+				const freeTileIndex = result.findIndex((ft) =>
+					freeTiles.includes(ft)
+				);
+				const tmp = result[freeTileIndex];
+				result[freeTileIndex] = result[centerIndex];
+				result[centerIndex] = tmp;
+			}
 		}
-		result[centerIndex] = freeTiles.sort(() => rng() - 0.5)?.[0] || "Free";
 	}
-	return result;
+	return result.map((t) => t.value);
 });
 </script>
 
