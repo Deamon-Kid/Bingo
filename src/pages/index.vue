@@ -39,7 +39,6 @@
 	</div>
 	<edit-dialog v-model="showEditDialog" v-model:data="bingo" />
 	<save-dialog v-if="showSaveDialog" v-model="showSaveDialog" :data="bingo" />
-	<router-view />
 </template>
 <script lang="ts" setup>
 import { ref, type Ref } from "vue";
