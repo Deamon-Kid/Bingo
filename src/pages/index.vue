@@ -89,7 +89,7 @@ watch(
 </script>
 <style scoped>
 .bingo-container {
-	max-width: 750px;
+	max-width: min(calc(100vw - 10px), calc(100vh - 100px));
 	margin: 0px auto;
 	max-height: calc(100vh -1000px);
 }
