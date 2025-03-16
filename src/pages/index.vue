@@ -52,15 +52,15 @@ const bingo: Ref<Bingo> = ref({
 	fields:
 		route.query.fields
 			?.toString()
-			.split(",")
+			.split("|")
 			.filter((value) => value.length > 0)
 			.map((value) => ({
 				value: value.substring(1),
 				free: value.startsWith("1"),
 			})) || [],
-	size: parseInt(route.query.size?.toString() || "3") || 3,
-	freeCenter: route.query.freeCenter ? true : false,
-	freeAnywhere: route.query.freeAnywhere ? true : false,
+	size: parseInt(route.query.size?.toString() || "3"),
+	freeCenter: !!route.query.freeCenter,
+	freeAnywhere: !!route.query.freeAnywhere,
 });
 const showSaveDialog = ref(false);
 const showEditDialog = ref(false);
@@ -73,7 +73,7 @@ watch(
 		query.set("seed", val.seed);
 		query.set(
 			"fields",
-			val.fields.map((f) => (f.free ? "1" : "0") + f.value).join(",")
+			val.fields.map((f) => (f.free ? "1" : "0") + f.value).join("|")
 		);
 		if (val.freeCenter) {
 			query.set("freeCenter", "1");
