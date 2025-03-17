@@ -1,11 +1,11 @@
 <template>
 	<v-app-bar density="compact">
 		<v-spacer />
-		<h2 class="ml-4">
+		<h2 class="ml-4 bingo-title flex-shrink-1">
 			{{ bingo.name || "unnamed Bingo" }}
 		</h2>
 		<v-spacer />
-		<div>
+		<div class="flex-grow-1">
 			<v-btn
 				variant="tonal"
 				rounded="0"
@@ -88,6 +88,10 @@ watch(
 );
 </script>
 <style scoped>
+.bingo-title {
+	overflow: ellipsis;
+	white-space: nowrap;
+}
 .bingo-container {
 	max-width: min(calc(100vw - 10px), calc(100vh - 100px));
 	margin: 0px auto;
