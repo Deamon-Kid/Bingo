@@ -3,9 +3,12 @@
 		class="bingo-tile"
 		:class="`bingo-tile_state-${state}`"
 		@click="updateState"
+		:style="tileStyle"
 	>
-		<div ref="tile">
-			{{ model }}
+		<div>
+			<span ref="tile">
+				{{ model }}
+			</span>
 		</div>
 	</v-card>
 </template>
@@ -15,6 +18,13 @@ const model = defineModel<string>();
 const state = ref(0);
 const tile = useTemplateRef("tile");
 
+const tileStyle = computed(() => {
+	const t = tile.value?.parentElement;
+	return {
+		maxHeight: t?.clientWidth,
+	};
+});
+
 const resizeText = () => {
 	const element = tile.value;
 	const parent = element?.parentElement;
@@ -22,34 +32,19 @@ const resizeText = () => {
 
 	let fontSize = 24; // Initial font size
 	element.style.fontSize = `${fontSize}px`;
-	element.style.maxHeight = `${element.clientWidth}px`;
-
-	if (model.value == "Lebensgefährlich") {
-		window.console.error(
-			model.value,
-			element.scrollWidth,
-			element.clientWidth,
-			element.offsetWidth
-		);
-	}
+	element.style.overflowWrap = "unset";
 
 	while (
-		element.scrollWidth != element.clientWidth ||
-		element.scrollHeight != element.clientHeight ||
-		element.scrollHeight != element.scrollWidth
+		element.scrollWidth > parent.clientWidth ||
+		element.scrollHeight > parent.clientHeight
 	) {
 		fontSize -= 1;
 		element.style.fontSize = `${fontSize}px`;
 		if (fontSize <= 8) break;
 	}
 
-	if (
-		element.scrollWidth != element.clientWidth ||
-		element.scrollHeight != element.clientHeight
-	) {
+	if (element.scrollWidth > parent.clientWidth) {
 		element.style.overflowWrap = "anywhere";
-	} else {
-		element.style.overflowWrap = "unset";
 	}
 };
 
@@ -58,13 +53,12 @@ onMounted(() => {
 	if (tile.value) {
 		sizeObserver.observe(tile.value);
 	}
+	nextTick(resizeText);
 });
 
 const updateState = () => {
 	state.value = (state.value + 1) % 3;
 };
-
-onMounted(resizeText);
 watch(
 	() => model.value,
 	() => {
@@ -85,9 +79,9 @@ watch(
 	color: black;
 	cursor: pointer;
 	display: block;
+	padding: 4px;
 
 	& > div {
-		padding: 4px;
 		text-align: center;
 		display: flex;
 		justify-content: center;
@@ -96,8 +90,9 @@ watch(
 		overflow: hidden;
 		overflow-wrap: initial;
 		width: 100%;
-		max-width: 100%;
-		line-height: 1em;
+		& > span {
+			line-height: 1em;
+		}
 	}
 }
 
