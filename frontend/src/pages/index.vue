@@ -1,11 +1,14 @@
 <template>
 	<v-app-bar density="compact">
 		<v-spacer />
-		<h2 class="ml-4 bingo-title flex-shrink-1">
-			{{ bingo.name || "unnamed Bingo" }}
+		<h2
+			class="ml-4 bingo-title flex-shrink-1 flex-grow-0 d-block"
+			:title="bingoName"
+		>
+			{{ bingoName }}
 		</h2>
 		<v-spacer />
-		<div class="flex-grow-1">
+		<div class="flex-grow-1 flex-shrink-0">
 			<v-btn
 				variant="tonal"
 				rounded="0"
@@ -64,6 +67,7 @@ const bingo: Ref<Bingo> = ref({
 });
 const showSaveDialog = ref(false);
 const showEditDialog = ref(false);
+const bingoName = computed(() => bingo.value.name || "unnamed Bingo");
 
 watch(
 	bingo,
@@ -89,7 +93,8 @@ watch(
 </script>
 <style scoped>
 .bingo-title {
-	overflow: ellipsis;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 .bingo-container {
