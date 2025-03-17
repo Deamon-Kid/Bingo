@@ -17,18 +17,39 @@ const tile = useTemplateRef("tile");
 
 const resizeText = () => {
 	const element = tile.value;
-	if (!element) return;
+	const parent = element?.parentElement;
+	if (!element || !parent) return;
 
 	let fontSize = 24; // Initial font size
 	element.style.fontSize = `${fontSize}px`;
+	element.style.maxHeight = `${element.clientWidth}px`;
+
+	if (model.value == "Lebensgefährlich") {
+		window.console.error(
+			model.value,
+			element.scrollWidth,
+			element.clientWidth,
+			element.offsetWidth
+		);
+	}
 
 	while (
-		element.scrollWidth != element.scrollHeight ||
-		element.clientWidth != element.clientHeight
+		element.scrollWidth != element.clientWidth ||
+		element.scrollHeight != element.clientHeight ||
+		element.scrollHeight != element.scrollWidth
 	) {
 		fontSize -= 1;
 		element.style.fontSize = `${fontSize}px`;
 		if (fontSize <= 8) break;
+	}
+
+	if (
+		element.scrollWidth != element.clientWidth ||
+		element.scrollHeight != element.clientHeight
+	) {
+		element.style.overflowWrap = "anywhere";
+	} else {
+		element.style.overflowWrap = "unset";
 	}
 };
 
@@ -57,26 +78,26 @@ watch(
 	aspect-ratio: 1/1;
 	border: 1px solid black;
 	border: 1px solid black;
-	padding: 4px;
 	font-size: 24px;
 	overflow: unset !important;
 	min-width: 0;
-	max-width: 100%;
-	max-height: 100%;
 	overflow: hidden;
 	color: black;
 	cursor: pointer;
+	display: block;
 
 	& > div {
+		padding: 4px;
 		text-align: center;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		aspect-ratio: 1/1;
-		overflow: initial;
+		overflow: hidden;
 		overflow-wrap: initial;
 		width: 100%;
 		max-width: 100%;
+		line-height: 1em;
 	}
 }
 
