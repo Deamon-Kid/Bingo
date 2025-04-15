@@ -70,25 +70,33 @@ const bingoName = computed(() => bingo.value.name || "unnamed Bingo");
 
 watch(
 	bingo,
-	(val) => {
-		const query = new URLSearchParams();
-		query.set("name", val.name);
-		query.set("seed", val.seed);
-		query.set(
-			"fields",
-			val.fields.map((f) => (f.free ? "1" : "0") + f.value).join("|")
-		);
-		if (val.freeCenter) {
-			query.set("freeCenter", "1");
-		}
-		if (val.freeAnywhere) {
-			query.set("freeAnywhere", "1");
-		}
-		query.set("size", val.size.toString());
-		history.replaceState(null, "", `?${query.toString()}`);
+	() => {
+		updateUrl();
 	},
 	{ deep: true }
 );
+
+watch(seed, () => {
+	updateUrl();
+});
+
+const updateUrl = () => {
+	const query = new URLSearchParams();
+	query.set("name", bingo.value.name);
+	query.set("seed", seed.value);
+	query.set(
+		"fields",
+		bingo.value.fields.map((f) => (f.free ? "1" : "0") + f.value).join("|")
+	);
+	if (bingo.value.freeCenter) {
+		query.set("freeCenter", "1");
+	}
+	if (bingo.value.freeAnywhere) {
+		query.set("freeAnywhere", "1");
+	}
+	query.set("size", bingo.value.size.toString());
+	history.replaceState(null, "", `?${query.toString()}`);
+};
 </script>
 <style scoped>
 .bingo-title {

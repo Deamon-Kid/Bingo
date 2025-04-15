@@ -29,7 +29,7 @@ const props = defineProps({
 		default: () => Math.random().toString(36).substring(7),
 	},
 });
-const state = ref([]);
+const state: Ref<number[]> = ref([]);
 
 const board = computed(() => {
 	let result = new Array(props.data.size ** 2).fill({
