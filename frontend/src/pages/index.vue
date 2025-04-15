@@ -14,9 +14,7 @@
 				rounded="0"
 				icon="mdi-shuffle-variant"
 				color="primary"
-				@click="
-					() => (bingo.seed = Math.random().toString(36).substring(7))
-				"
+				@click="() => (seed = Math.random().toString(36).substring(7))"
 			/>
 			<v-btn
 				variant="tonal"
@@ -35,7 +33,7 @@
 		</div>
 	</v-app-bar>
 	<div class="bingo-container">
-		<bingo-board class="mx-auto" :data="bingo" />
+		<bingo-board class="mx-auto" :data="bingo" :seed="seed" />
 	</div>
 	<edit-dialog v-model="showEditDialog" v-model:data="bingo" />
 	<save-dialog v-if="showSaveDialog" v-model="showSaveDialog" :data="bingo" />
@@ -48,10 +46,11 @@ import { useRoute } from "vue-router";
 import type { Bingo } from "@/types/Bingo";
 
 const route = useRoute();
+const seed = ref(
+	route.query.seed?.toString() ?? Math.random().toString(36).substring(7)
+);
 const bingo: Ref<Bingo> = ref({
 	name: route.query.name?.toString() || "",
-	seed:
-		route.query.seed?.toString() || Math.random().toString(36).substring(7),
 	fields:
 		route.query.fields
 			?.toString()

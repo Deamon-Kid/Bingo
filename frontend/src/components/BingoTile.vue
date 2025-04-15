@@ -7,15 +7,14 @@
 	>
 		<div>
 			<span ref="tile">
-				{{ model }}
+				<slot> test </slot>
 			</span>
 		</div>
 	</v-card>
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, useTemplateRef, watch } from "vue";
-const model = defineModel<string>();
-const state = ref(0);
+const state = defineModel<number>({ default: 0 });
 const tile = useTemplateRef("tile");
 
 const tileStyle = computed(() => {
@@ -59,13 +58,6 @@ onMounted(() => {
 const updateState = () => {
 	state.value = (state.value + 1) % 3;
 };
-watch(
-	() => model.value,
-	() => {
-		nextTick(resizeText);
-		state.value = 0;
-	}
-);
 </script>
 <style scoped>
 .bingo-tile {

@@ -5,15 +5,17 @@
 	>
 		<bingo-tile
 			v-for="(field, i) in board"
+			v-model="state[i]"
 			:key="`board-${i}`"
-			:model-value="field"
-		/>
+		>
+			{{ field }}
+		</bingo-tile>
 	</div>
 </template>
 
 <script setup lang="ts">
 import BingoTile from "./BingoTile.vue";
-import { computed } from "vue";
+import { computed, watch } from "vue";
 import seedrandom from "seedrandom";
 import type { Bingo } from "@/types/Bingo";
 
@@ -22,7 +24,12 @@ const props = defineProps({
 		type: Object as PropType<Bingo>,
 		required: true,
 	},
+	seed: {
+		type: String,
+		default: () => Math.random().toString(36).substring(7),
+	},
 });
+const state = ref([]);
 
 const board = computed(() => {
 	let result = new Array(props.data.size ** 2).fill({
@@ -42,7 +49,7 @@ const board = computed(() => {
 	) {
 		return result.map((f) => f.value);
 	}
-	const rng = seedrandom(props.data.seed);
+	const rng = seedrandom(props.seed);
 	tiles.sort(() => rng() - 0.5);
 	result = result.map((_, i) => tiles[i]);
 	if (props.data.freeCenter && freeTiles.length > 0) {
@@ -70,6 +77,14 @@ const board = computed(() => {
 	}
 	return result.map((t) => t.value);
 });
+
+watch(
+	() => props.seed,
+	() => {
+		state.value = new Array(props.data.size ** 2).fill(0);
+	},
+	{ immediate: true }
+);
 </script>
 
 <style scoped>
