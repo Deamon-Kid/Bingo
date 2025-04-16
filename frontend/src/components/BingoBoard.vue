@@ -8,7 +8,7 @@
 			v-model="state[i]"
 			:key="`board-${i}`"
 		>
-			{{ field }}
+			{{ field ?? "" }}
 		</bingo-tile>
 	</div>
 </template>
