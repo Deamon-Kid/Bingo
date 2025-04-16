@@ -4,19 +4,19 @@
 		:fullscreen="display.smAndDown.value"
 		scrollable
 		transition="dialog-top-transition"
+		max-width="1000px"
 	>
 		<v-card>
 			<v-card-title class="pa-0">
 				<v-toolbar density="compact">
-					<v-spacer />
 					<v-text-field
 						hideDetails
 						singleLine
 						label="Bingo Name"
 						v-model="data.name"
 						density="compact"
+						class="ml-4"
 					/>
-					<v-spacer />
 					<v-btn
 						icon
 						rounded="0"
@@ -29,17 +29,8 @@
 				</v-toolbar>
 			</v-card-title>
 			<v-card-text>
-				<v-alert v-if="!valid" type="warning">
-					Not enough fields to fill the board. (
-					{{ data.fields.filter((f) => !f.free).length }}
-					out of
-					<template v-if="data.fields.some((f) => f.free)">
-						{{ data.size ** 2 - 1 }}
-					</template>
-					<template v-else>
-						{{ data.size ** 2 }}
-					</template>
-					)
+				<v-alert v-if="!valid" type="warning" variant="tonal">
+					{{ warningMessage }}
 				</v-alert>
 				<v-data-table
 					:items="data.fields"
@@ -48,6 +39,7 @@
 					dense
 					fixed-header
 					items-per-page="-1"
+					max-height="100%"
 				>
 					<template #[`item.value`]="{ item }">
 						<v-text-field
@@ -146,7 +138,7 @@
 <script lang="ts" setup>
 import type { Bingo } from "@/types/Bingo";
 import { useDisplay } from "vuetify";
-// import BingoEntry from "./BingoEntry.vue";
+
 const model = defineModel<boolean>();
 const dataModel = defineModel("data", {
 	type: Object as PropType<Bingo>,
@@ -178,6 +170,13 @@ const valid = computed(() => {
 		(locked.length == squareSize - 1 &&
 			data.value.fields.some((f) => f.free))
 	);
+});
+
+const warningMessage = computed(() => {
+	if (valid.value) return "";
+	const locked = data.value.fields.filter((f) => !f.free);
+	const squareSize = data.value.size ** 2;
+	return `Not enough fields to fill the board. (${locked.length} out of ${squareSize})`;
 });
 
 const addEntry = () => {
