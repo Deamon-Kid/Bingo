@@ -44,8 +44,10 @@ import BingoBoard from "../components/BingoBoard.vue";
 import SaveDialog from "@/components/SaveDialog.vue";
 import { useRoute } from "vue-router";
 import type { Bingo } from "@/types/Bingo";
+import { useTheme } from "vuetify";
 
 const route = useRoute();
+const theme = useTheme();
 const seed = ref(
 	route.query.seed?.toString() ?? Math.random().toString(36).substring(7)
 );
@@ -97,6 +99,11 @@ const updateUrl = () => {
 	query.set("size", bingo.value.size.toString());
 	history.replaceState(null, "", `?${query.toString()}`);
 };
+
+const currentTheme = window.localStorage.getItem("theme");
+if (currentTheme !== null) {
+	theme.global.name.value = currentTheme;
+}
 </script>
 <style scoped>
 .bingo-title {

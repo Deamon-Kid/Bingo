@@ -72,7 +72,9 @@ const isLightMode = computed(() => {
 });
 
 const toggleTheme = (value: boolean) => {
-	theme.global.name.value = value ? "light" : "dark";
+	const mode = value ? "light" : "dark";
+	theme.global.name.value = mode;
+	window.localStorage.setItem("theme", mode);
 };
 </script>
 
