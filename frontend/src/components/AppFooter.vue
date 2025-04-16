@@ -1,5 +1,41 @@
 <template>
 	<v-footer height="40" app>
+		<v-menu :close-on-content-click="false" offset="10" location="top left">
+			<template #activator="{ props }">
+				<v-btn
+					v-bind="props"
+					icon="mdi-cog"
+					variant="flat"
+					rounded="0"
+					size="16"
+				/>
+			</template>
+			<v-list density="compact" elevation="0">
+				<v-list-item density="compact">
+					<v-switch
+						id="theme-toggle"
+						:model-value="isLightMode"
+						hide-details
+						density="compact"
+						@update:model-value="(v) => toggleTheme(v as boolean)"
+					>
+						<template #label>
+							<v-icon>mdi-weather-sunny</v-icon>
+						</template>
+						<template #prepend>
+							<label for="theme-toggle">
+								<v-icon>mdi-moon-new</v-icon>
+							</label>
+						</template>
+					</v-switch>
+				</v-list-item>
+			</v-list>
+		</v-menu>
+		<v-spacer />
+		<div class="text-caption text-disabled mr-2">
+			&copy; 2025-{{ new Date().getFullYear() }}
+			<span class="d-none d-sm-inline-block">Moritz Beußel</span>
+		</div>
 		<a
 			v-for="item in items"
 			:key="item.title"
@@ -11,18 +47,13 @@
 		>
 			<v-icon :icon="item.icon" :size="16" />
 		</a>
-
-		<div
-			class="text-caption text-disabled"
-			style="position: absolute; right: 16px"
-		>
-			&copy; 2025-{{ new Date().getFullYear() }}
-			<span class="d-none d-sm-inline-block">Moritz Beußel</span>
-		</div>
 	</v-footer>
 </template>
 
 <script setup lang="ts">
+import { useTheme } from "vuetify";
+
+const theme = useTheme();
 const items = [
 	{
 		title: "Homepage",
@@ -35,6 +66,14 @@ const items = [
 		href: "https://github.com/Deamon-Kid/Bingo/tree/feature/vue3",
 	},
 ];
+
+const isLightMode = computed(() => {
+	return theme.global.name.value !== "dark";
+});
+
+const toggleTheme = (value: boolean) => {
+	theme.global.name.value = value ? "light" : "dark";
+};
 </script>
 
 <style scoped lang="sass">
