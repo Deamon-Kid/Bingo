@@ -13,6 +13,7 @@ declare module 'vue' {
     EditDialog: typeof import('./components/EditDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SaveDialog: typeof import('./components/SaveDialog.vue')['default']
+    SaveDialog: typeof import('./components/ShareDialog.vue')['default']
+    ShareDialog: typeof import('./components/ShareDialog.vue')['default']
   }
 }

@@ -4,7 +4,9 @@
 			<v-card-title class="pa-0">
 				<v-toolbar class="pl-4" density="compact">
 					<span>
-						Share [<span> {{ props.data.name }} </span>]
+						Share [<span>
+							{{ props.data.name || "Unnamed Bingo" }} </span
+						>]
 					</span>
 					<v-spacer />
 					<v-btn

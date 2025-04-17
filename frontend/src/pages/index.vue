@@ -80,7 +80,7 @@
 <script lang="ts" setup>
 import { ref, type Ref } from "vue";
 import BingoBoard from "../components/BingoBoard.vue";
-import SaveDialog from "@/components/SaveDialog.vue";
+import SaveDialog from "@/components/ShareDialog.vue";
 import { useRoute } from "vue-router";
 import type { Bingo } from "@/types/Bingo";
 import { useTheme } from "vuetify";
