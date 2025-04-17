@@ -10,7 +10,7 @@
 					height="40"
 				/>
 			</template>
-			<v-list density="compact" elevation="0">
+			<v-list density="compact" elevation="0" class="py-0">
 				<v-list-item
 					density="compact"
 					@click="() => toggleTheme(!isLightMode)"
@@ -23,10 +23,14 @@
 						color="primary"
 					>
 						<template #label>
-							<v-icon>mdi-white-balance-sunny</v-icon>
+							<v-icon :color="isLightMode ? 'primary' : ''">
+								mdi-white-balance-sunny
+							</v-icon>
 						</template>
 						<template #prepend>
-							<v-icon>mdi-moon-waning-crescent</v-icon>
+							<v-icon :color="!isLightMode ? 'primary' : ''">
+								mdi-moon-waning-crescent
+							</v-icon>
 						</template>
 					</v-switch>
 				</v-list-item>
