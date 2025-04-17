@@ -1,14 +1,11 @@
 <template>
-	<v-app-bar density="compact">
+	<v-app-bar density="compact" class="mx-0">
 		<v-spacer />
-		<h2
-			class="ml-4 bingo-title flex-shrink-1 flex-grow-0 d-block"
-			:title="bingoName"
-		>
+		<v-app-bar-title :title="bingoName">
 			{{ bingoName }}
-		</h2>
+		</v-app-bar-title>
 		<v-spacer />
-		<div class="flex-grow-1 flex-shrink-0">
+		<template #append>
 			<v-btn
 				variant="tonal"
 				rounded="0"
@@ -64,7 +61,7 @@
 					</v-list>
 				</v-card>
 			</v-menu>
-		</div>
+		</template>
 	</v-app-bar>
 	<div class="bingo-container">
 		<bingo-board
