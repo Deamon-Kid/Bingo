@@ -1,13 +1,13 @@
 <template>
-	<v-footer height="40" app>
-		<v-menu :close-on-content-click="false" offset="10" location="top left">
+	<v-footer app height="40">
+		<v-menu :close-on-content-click="false" location="top left">
 			<template #activator="{ props }">
 				<v-btn
 					v-bind="props"
 					icon="mdi-cog"
 					variant="flat"
 					rounded="0"
-					size="16"
+					height="40"
 				/>
 			</template>
 			<v-list density="compact" elevation="0">
