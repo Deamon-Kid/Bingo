@@ -58,7 +58,7 @@ const items = [
 	{
 		title: "Homepage",
 		icon: "mdi-home",
-		href: "http://beussel.de",
+		href: "https://www.beussel.de",
 	},
 	{
 		title: "Bingo GitHub",
