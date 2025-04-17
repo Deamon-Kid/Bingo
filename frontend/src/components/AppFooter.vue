@@ -11,21 +11,22 @@
 				/>
 			</template>
 			<v-list density="compact" elevation="0">
-				<v-list-item density="compact">
+				<v-list-item
+					density="compact"
+					@click="() => toggleTheme(!isLightMode)"
+				>
 					<v-switch
-						id="theme-toggle"
 						:model-value="isLightMode"
 						hide-details
 						density="compact"
-						@update:model-value="(v) => toggleTheme(v as boolean)"
+						readonly
+						color="primary"
 					>
 						<template #label>
-							<v-icon>mdi-weather-sunny</v-icon>
+							<v-icon>mdi-white-balance-sunny</v-icon>
 						</template>
 						<template #prepend>
-							<label for="theme-toggle">
-								<v-icon>mdi-moon-new</v-icon>
-							</label>
+							<v-icon>mdi-moon-waning-crescent</v-icon>
 						</template>
 					</v-switch>
 				</v-list-item>
