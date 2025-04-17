@@ -19,21 +19,60 @@
 			<v-btn
 				variant="tonal"
 				rounded="0"
-				icon="mdi-share-variant"
-				color="success"
-				@click="() => (showSaveDialog = true)"
+				icon="mdi-cancel"
+				color="error"
+				@click="clearState"
 			/>
-			<v-btn
-				variant="tonal"
-				rounded="0"
-				icon="mdi-pencil"
-				color="warning"
-				@click="() => (showEditDialog = !showEditDialog)"
-			/>
+			<v-menu>
+				<template #activator="{ props }">
+					<v-btn
+						v-bind="props"
+						variant="tonal"
+						rounded="0"
+						icon="mdi-cogs"
+						color="grey"
+					/>
+				</template>
+				<v-card width="200px">
+					<v-list density="compact" elevation="0">
+						<v-list-item @click="() => (showSaveDialog = true)">
+							<template #prepend>
+								<v-icon
+									variant="text"
+									rounded="0"
+									icon="mdi-share-variant"
+									color="success"
+									size="sm"
+								/>
+							</template>
+							<v-list-item-title> Share </v-list-item-title>
+						</v-list-item>
+						<v-list-item
+							@click="() => (showEditDialog = !showEditDialog)"
+						>
+							<template #prepend>
+								<v-icon
+									variant="text"
+									rounded="0"
+									icon="mdi-pencil"
+									color="warning"
+									size="sm"
+								/>
+							</template>
+							<v-list-item-title> Edit </v-list-item-title>
+						</v-list-item>
+					</v-list>
+				</v-card>
+			</v-menu>
 		</div>
 	</v-app-bar>
 	<div class="bingo-container">
-		<bingo-board class="mx-auto" :data="bingo" :seed="seed" />
+		<bingo-board
+			class="mx-auto"
+			v-model:state="state"
+			:data="bingo"
+			:seed="seed"
+		/>
 	</div>
 	<edit-dialog v-model="showEditDialog" v-model:data="bingo" />
 	<save-dialog v-if="showSaveDialog" v-model="showSaveDialog" :data="bingo" />
@@ -66,21 +105,10 @@ const bingo: Ref<Bingo> = ref({
 	freeCenter: !!route.query.freeCenter,
 	freeAnywhere: !!route.query.freeAnywhere,
 });
+const state: Ref<number[]> = ref([]);
 const showSaveDialog = ref(false);
 const showEditDialog = ref(false);
 const bingoName = computed(() => bingo.value.name || "unnamed Bingo");
-
-watch(
-	bingo,
-	() => {
-		updateUrl();
-	},
-	{ deep: true }
-);
-
-watch(seed, () => {
-	updateUrl();
-});
 
 const updateUrl = () => {
 	const query = new URLSearchParams();
@@ -100,10 +128,46 @@ const updateUrl = () => {
 	history.replaceState(null, "", `?${query.toString()}`);
 };
 
+const clearState = () => {
+	state.value = new Array(bingo.value.size ** 2).fill(0);
+};
+
 const currentTheme = window.localStorage.getItem("theme");
 if (currentTheme !== null) {
 	theme.global.name.value = currentTheme;
 }
+
+watch(
+	bingo,
+	() => {
+		updateUrl();
+	},
+	{ deep: true }
+);
+
+watch(
+	seed,
+	(val) => {
+		updateUrl();
+		if (window.localStorage.getItem("state")) {
+			state.value = JSON.parse(
+				window.localStorage.getItem("state") || "[]"
+			);
+		} else {
+			state.value = new Array(bingo.value.size ** 2).fill(0);
+		}
+		window.localStorage.setItem("seed", val);
+	},
+	{ immediate: true }
+);
+
+watch(
+	() => state,
+	() => {
+		window.localStorage.setItem("state", JSON.stringify(state.value));
+	},
+	{ deep: true }
+);
 </script>
 <style scoped>
 .bingo-title {

@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import BingoTile from "./BingoTile.vue";
-import { computed, watch } from "vue";
+import { computed } from "vue";
 import seedrandom from "seedrandom";
 import type { Bingo } from "@/types/Bingo";
 
@@ -29,8 +29,10 @@ const props = defineProps({
 		default: () => Math.random().toString(36).substring(7),
 	},
 });
-const state: Ref<number[]> = ref([]);
-
+const state = defineModel("state", {
+	type: Array as PropType<number[]>,
+	required: true,
+});
 const board = computed(() => {
 	let result = new Array(props.data.size ** 2).fill({
 		value: "",
@@ -77,14 +79,6 @@ const board = computed(() => {
 	}
 	return result.map((t) => t.value);
 });
-
-watch(
-	() => props.seed,
-	() => {
-		state.value = new Array(props.data.size ** 2).fill(0);
-	},
-	{ immediate: true }
-);
 </script>
 
 <style scoped>
