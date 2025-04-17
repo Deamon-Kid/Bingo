@@ -11,7 +11,7 @@
 				rounded="0"
 				icon="mdi-shuffle-variant"
 				color="primary"
-				@click="() => (seed = Math.random().toString(36).substring(7))"
+				@click="updateSeed"
 			/>
 			<v-btn
 				variant="tonal"
@@ -125,6 +125,11 @@ const updateUrl = () => {
 	history.replaceState(null, "", `?${query.toString()}`);
 };
 
+const updateSeed = () => {
+	seed.value = Math.random().toString(36).substring(7);
+	clearState();
+};
+
 const clearState = () => {
 	state.value = new Array(bingo.value.size ** 2).fill(0);
 };
@@ -146,13 +151,6 @@ watch(
 	seed,
 	(val) => {
 		updateUrl();
-		if (window.localStorage.getItem("state")) {
-			state.value = JSON.parse(
-				window.localStorage.getItem("state") || "[]"
-			);
-		} else {
-			state.value = new Array(bingo.value.size ** 2).fill(0);
-		}
 		window.localStorage.setItem("seed", val);
 	},
 	{ immediate: true }
@@ -165,6 +163,12 @@ watch(
 	},
 	{ deep: true }
 );
+
+if (window.localStorage.getItem("state")) {
+	state.value = JSON.parse(window.localStorage.getItem("state") || "[]");
+} else {
+	state.value = new Array(bingo.value.size ** 2).fill(0);
+}
 </script>
 <style scoped>
 .bingo-title {
