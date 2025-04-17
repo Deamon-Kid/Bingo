@@ -1,5 +1,5 @@
 <template>
-	<v-footer app height="40">
+	<v-footer app height="40" class="px-0">
 		<v-menu :close-on-content-click="false" location="top left">
 			<template #activator="{ props }">
 				<v-btn
