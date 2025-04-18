@@ -1,6 +1,6 @@
 <template>
 	<v-app-bar density="compact" class="mx-0">
-		<v-spacer />
+		<v-spacer v-if="!mobile" />
 		<v-app-bar-title :title="props.bingoName">
 			{{ props.bingoName }}
 		</v-app-bar-title>
