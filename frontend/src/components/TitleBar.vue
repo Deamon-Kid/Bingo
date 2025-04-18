@@ -2,7 +2,7 @@
 	<v-app-bar density="compact" class="mx-0">
 		<v-spacer v-if="!mobile" />
 		<v-app-bar-title :title="props.bingoName">
-			{{ props.bingoName }}
+			{{ props.bingoName || "unnamed Bingo" }}
 		</v-app-bar-title>
 		<v-spacer />
 		<template #append>
