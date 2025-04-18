@@ -78,26 +78,50 @@
 import { ref, type Ref } from "vue";
 import BingoBoard from "../components/BingoBoard.vue";
 import SaveDialog from "@/components/ShareDialog.vue";
-import { useRoute } from "vue-router";
+import { useRoute, type LocationQueryValue } from "vue-router";
 import type { Bingo } from "@/types/Bingo";
 import { useTheme } from "vuetify";
+import type { BingoEntry } from "@/types/BingoEntry";
 
 const route = useRoute();
 const theme = useTheme();
+
+const loadFields = () => {
+	if (route.query.fields) {
+		return (
+			(route.query.fields as LocationQueryValue)
+				?.split("|")
+				.map((value: string) => {
+					return {
+						value: value.substring(1),
+						free: value.startsWith("1"),
+					} as BingoEntry;
+				}) || []
+		);
+	}
+	let fields = route.query["f[]"];
+	if (!Array.isArray(fields)) {
+		fields = [fields];
+	}
+	return (
+		fields
+			.filter((value) => value != null && value.length > 0)
+			.map(
+				(value) =>
+					({
+						value: value?.substring(1),
+						free: value?.startsWith("1"),
+					} as BingoEntry)
+			) || []
+	);
+};
+
 const seed = ref(
 	route.query.seed?.toString() ?? Math.random().toString(36).substring(7)
 );
 const bingo: Ref<Bingo> = ref({
 	name: route.query.name?.toString() || "",
-	fields:
-		route.query.fields
-			?.toString()
-			.split("|")
-			.filter((value) => value.length > 0)
-			.map((value) => ({
-				value: value.substring(1),
-				free: value.startsWith("1"),
-			})) || [],
+	fields: loadFields(),
 	size: parseInt(route.query.size?.toString() || "3"),
 	freeCenter: !!route.query.freeCenter,
 	freeAnywhere: !!route.query.freeAnywhere,
@@ -111,10 +135,9 @@ const updateUrl = () => {
 	const query = new URLSearchParams();
 	query.set("name", bingo.value.name);
 	query.set("seed", seed.value);
-	query.set(
-		"fields",
-		bingo.value.fields.map((f) => (f.free ? "1" : "0") + f.value).join("|")
-	);
+	bingo.value.fields.forEach((f) => {
+		query.append("f[]", `${f.free ? 1 : 0}${f.value}`);
+	});
 	if (bingo.value.freeCenter) {
 		query.set("freeCenter", "1");
 	}
