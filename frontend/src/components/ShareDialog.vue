@@ -50,7 +50,7 @@ const props = defineProps({
 const showSnackbar = ref(false);
 
 const text = computed(() => {
-	return window.location.href;
+	return decodeURIComponent(window.location.href);
 });
 
 const copyText = () => {
