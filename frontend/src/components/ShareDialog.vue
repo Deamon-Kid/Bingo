@@ -4,9 +4,9 @@
 			<v-card-title class="pa-0">
 				<v-toolbar class="pl-4" density="compact">
 					<span>
-						Share [<span>
-							{{ props.data.name || "Unnamed Bingo" }} </span
-						>]
+						Share [
+						<span> {{ props.data.name || "Unnamed Bingo" }} </span>
+						]
 					</span>
 					<v-spacer />
 					<v-btn
@@ -57,7 +57,5 @@ const copyText = () => {
 	window.navigator.clipboard.writeText(text.value);
 	showSnackbar.value = true;
 };
-
-window.console.error(model, props.data);
 </script>
 <style scoped></style>

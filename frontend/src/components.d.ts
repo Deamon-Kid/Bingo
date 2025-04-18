@@ -15,5 +15,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SaveDialog: typeof import('./components/ShareDialog.vue')['default']
     ShareDialog: typeof import('./components/ShareDialog.vue')['default']
+    TitleBar: typeof import('./components/TitleBar.vue')['default']
   }
 }

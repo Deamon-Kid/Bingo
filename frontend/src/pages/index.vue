@@ -1,68 +1,11 @@
 <template>
-	<v-app-bar density="compact" class="mx-0">
-		<v-spacer />
-		<v-app-bar-title :title="bingoName">
-			{{ bingoName }}
-		</v-app-bar-title>
-		<v-spacer />
-		<template #append>
-			<v-btn
-				variant="tonal"
-				rounded="0"
-				icon="mdi-shuffle-variant"
-				color="primary"
-				@click="updateSeed"
-			/>
-			<v-btn
-				variant="tonal"
-				rounded="0"
-				icon="mdi-cancel"
-				color="error"
-				@click="clearState"
-			/>
-			<v-menu>
-				<template #activator="{ props }">
-					<v-btn
-						v-bind="props"
-						variant="tonal"
-						rounded="0"
-						icon="mdi-cogs"
-						color="grey"
-					/>
-				</template>
-				<v-card width="200px">
-					<v-list density="compact" elevation="0">
-						<v-list-item @click="() => (showSaveDialog = true)">
-							<template #prepend>
-								<v-icon
-									variant="text"
-									rounded="0"
-									icon="mdi-share-variant"
-									color="success"
-									size="sm"
-								/>
-							</template>
-							<v-list-item-title> Share </v-list-item-title>
-						</v-list-item>
-						<v-list-item
-							@click="() => (showEditDialog = !showEditDialog)"
-						>
-							<template #prepend>
-								<v-icon
-									variant="text"
-									rounded="0"
-									icon="mdi-pencil"
-									color="warning"
-									size="sm"
-								/>
-							</template>
-							<v-list-item-title> Edit </v-list-item-title>
-						</v-list-item>
-					</v-list>
-				</v-card>
-			</v-menu>
-		</template>
-	</v-app-bar>
+	<title-bar
+		:bingo-name="bingo.name"
+		@click:shuffle="updateSeed"
+		@click:clear="clearState"
+		@click:edit="showEditDialog = true"
+		@click:share="showSaveDialog = true"
+	/>
 	<div class="bingo-container">
 		<bingo-board
 			class="mx-auto"
