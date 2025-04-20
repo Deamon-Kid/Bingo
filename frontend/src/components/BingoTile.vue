@@ -3,6 +3,7 @@
 		class="bingo-tile"
 		:class="`bingo-tile_state-${state}`"
 		@click="updateState"
+		:color="tileColor"
 		:style="tileStyle"
 	>
 		<div>
@@ -22,6 +23,17 @@ const tileStyle = computed(() => {
 	return {
 		maxHeight: t?.clientWidth,
 	};
+});
+
+const tileColor = computed(() => {
+	switch (state.value) {
+		case 1:
+			return "green";
+		case 2:
+			return "red";
+		default:
+			return "white";
+	}
 });
 
 const resizeText = () => {
@@ -86,17 +98,5 @@ const updateState = () => {
 			line-height: 1em;
 		}
 	}
-}
-
-.bingo-tile_state-0 {
-	background-color: white;
-}
-
-.bingo-tile_state-1 {
-	background-color: green;
-}
-
-.bingo-tile_state-2 {
-	background-color: red;
 }
 </style>
