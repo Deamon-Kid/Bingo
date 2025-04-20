@@ -8,7 +8,7 @@
 	>
 		<div>
 			<span ref="tile">
-				<slot> test </slot>
+				<slot></slot>
 			</span>
 		</div>
 	</v-card>
